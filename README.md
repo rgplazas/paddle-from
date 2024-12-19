@@ -1,70 +1,140 @@
-# Getting Started with Create React App
+# Sistema de Reservas de Canchas de Paddle (Frontend con React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es un frontend desarrollado en React para gestionar un sistema de reservas de canchas de paddle. El sistema permite visualizar las canchas disponibles, realizar reservas y gestionar las reservas existentes. Este frontend se conecta a un backend desarrollado en **FastAPI**.
 
-## Available Scripts
+## **Requisitos previos**
 
-In the project directory, you can run:
+Antes de iniciar, asegúrate de tener instalados:
 
-### `npm start`
+- [Node.js](https://nodejs.org/) (versión 16 o superior recomendada).
+- [npm](https://www.npmjs.com/) o [yarn](https://yarnpkg.com/).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+También asegúrate de que el backend de FastAPI esté ejecutándose en tu máquina o servidor.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## **Instalación**
 
-### `npm test`
+Sigue estos pasos para configurar y ejecutar el proyecto:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. Clona el repositorio
+```bash
+git clone <URL-del-repositorio>
+cd reservas-paddle
+```
 
-### `npm run build`
+### 2. Instala las dependencias
+```bash
+npm install
+```
+Esto instalará las bibliotecas necesarias, incluyendo **Axios**, **React Router DOM**, y (opcionalmente) **Bootstrap**.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3. Configura la URL base de Axios
+En el archivo `src/api.js`, asegúrate de que la URL base apunte al backend de FastAPI:
+```javascript
+const api = axios.create({
+  baseURL: 'http://127.0.0.1:8000', // Cambia esto si el backend está en otra dirección
+});
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 4. Inicia la aplicación
+```bash
+npm start
+```
+Esto iniciará el servidor de desarrollo y la aplicación estará disponible en `http://localhost:3000`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## **Características del proyecto**
 
-### `npm run eject`
+### 1. **Navbar**
+Proporciona navegación entre las páginas principales: **Inicio**, **Canchas**, y **Reservas**.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. **Lista de Canchas**
+Obtiene y muestra las canchas disponibles desde el backend utilizando una solicitud GET con Axios.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. **Formulario de Reservas**
+Permite crear una nueva reserva enviando los datos necesarios al backend mediante una solicitud POST.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 4. **Lista de Reservas**
+Muestra todas las reservas existentes con información detallada.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## **Estructura del proyecto**
+El proyecto sigue una estructura modular, organizando los componentes y páginas de manera que el código sea reutilizable y fácil de mantener:
 
-## Learn More
+```
+reservas-paddle/
+  ├── src/
+  │   ├── components/
+  │   │   ├── Navbar.js         # Barra de navegación
+  │   │   ├── CanchasList.js    # Lista de canchas disponibles
+  │   │   ├── ReservaForm.js    # Formulario para crear reservas
+  │   │   ├── ReservasList.js   # Lista de reservas existentes
+  │   └── pages/
+  │       ├── HomePage.js       # Página de inicio
+  │       ├── CanchasPage.js    # Página para visualizar canchas
+  │       ├── ReservasPage.js   # Página para gestionar reservas
+  │   ├── App.js                # Configuración principal de rutas
+  │   ├── api.js                # Configuración de Axios
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## **Cómo funciona el sistema**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **1. Navbar**
+- Proporciona un sistema de navegación entre las diferentes secciones.
+- Mejora la experiencia del usuario al permitir el acceso rápido a las funcionalidades principales.
 
-### Code Splitting
+### **2. Lista de Canchas**
+- Realiza una solicitud `GET` a `/canchas/` del backend para obtener las canchas disponibles.
+- Muestra las canchas en una lista con información relevante como nombre y tipo (techada o no).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### **3. Formulario de Reservas**
+- Permite al usuario ingresar:
+  - ID de la cancha.
+  - Fecha y hora de la reserva.
+  - Duración en horas.
+  - Nombre y teléfono de contacto.
+- Envía una solicitud `POST` al endpoint `/reservas/` para crear la reserva.
+- Valida los datos ingresados antes del envío para evitar errores comunes.
 
-### Analyzing the Bundle Size
+### **4. Lista de Reservas**
+- Realiza una solicitud `GET` al endpoint `/reservas/`.
+- Muestra las reservas existentes con información como nombre del contacto, fecha, y duración.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## **Buenas prácticas implementadas**
 
-### Making a Progressive Web App
+### **1. Modularidad**
+El proyecto está dividido en componentes y páginas para mejorar la mantenibilidad y legibilidad del código.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### **2. Configuración de Axios**
+Se centralizó la configuración de Axios en `src/api.js` para facilitar cambios en la URL base y evitar repetición de código.
 
-### Advanced Configuration
+### **3. Enfoque en la experiencia del usuario (UX)**
+- Se utiliza una barra de navegación intuitiva.
+- Los formularios incluyen validaciones básicas para evitar errores de usuario.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### **4. Mejores prácticas de React**
+- Uso de **Hooks** (`useState` y `useEffect`) para gestionar el estado y efectos secundarios.
+- Uso de **React Router DOM** para manejar la navegación.
+- Evita el uso excesivo de componentes de clase.
 
-### Deployment
+## **Personalización y mejora**
+- **Estilo:** Se puede personalizar la apariencia utilizando frameworks como Tailwind CSS o Material-UI.
+- **Autenticación:** Se puede integrar un sistema de autenticación para gestionar usuarios y accesos.
+- **Validaciones:** Utilizar librerías como Formik o Yup para validaciones avanzadas de formularios.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## **Problemas comunes y soluciones**
 
-### `npm run build` fails to minify
+1. **Error de CORS al conectarse al backend:**
+   - Asegúrate de que el backend permite solicitudes desde el origen del frontend. Puedes configurar CORS en FastAPI.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. **El servidor no se inicia:**
+   - Asegúrate de que Node.js y npm están correctamente instalados.
+   - Verifica que las dependencias se instalaron correctamente con `npm install`.
+
+3. **Datos no se muestran correctamente:**
+   - Verifica la configuración de la URL base en `src/api.js`.
+   - Asegúrate de que el backend está corriendo y accesible.
+
+## **Licencia**
+Este proyecto está bajo la [MIT License](LICENSE).
+
+---
+
+¡Gracias por usar el Sistema de Reservas de Canchas de Paddle! Si tienes alguna pregunta o sugerencia, no dudes en abrir un issue o contribuir al proyecto.
